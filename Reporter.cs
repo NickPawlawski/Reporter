@@ -10,15 +10,13 @@ namespace Reporter
     /// </summary>
     public static class Reporter
     {
-
         #region Variables
 
         private const string FileName = "Report.txt";
 
         private static string _folderName;
         private static bool _debug = false; 
-        private static readonly string Folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\"+ _folderName;
-        private static readonly Stack<string> Section = new Stack<string>();
+        private static Stack<string> Section = new Stack<string>();
 
         private static string PreText = "";
 
@@ -27,29 +25,36 @@ namespace Reporter
 
 
         #region Properties
-        public static string FolderName { set => _folderName = value; }
+        public static string FolderName { get => _folderName; set => _folderName = value; }
+        public static string GetFolder { get => Folder(); }
         public static bool Debug { set => _debug = value; }
         #endregion Properties
 
 
         #region Methods
+        
+        private static string Folder()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\" + _folderName;
+        }
 
         /// <summary>
         /// Program start handling.
         /// </summary>
-        public static void Startup()
+        public static void StartReporter(string FolderName = "Reporter")
         {
+            _folderName = FolderName;
             // Ensure that directory exists.
-            if (!Directory.Exists(Folder))
+            if (!Directory.Exists(Folder()))
             {
-                Directory.CreateDirectory(Folder);
+                Directory.CreateDirectory(Folder());
             }
 
             // Attempt first write to file.
             try
             {
                 StreamWriter streamWriter;
-                using (streamWriter = File.AppendText(Folder + "\\" + FileName))
+                using (streamWriter = File.AppendText(Folder() + "\\" + FileName))
                 {
                     streamWriter.WriteLine("*****************************************");
                     streamWriter.WriteLine("Software Launched at: " + DateTime.Now);
@@ -69,11 +74,11 @@ namespace Reporter
             try
             {
                 StreamWriter streamWriter;
-                using (streamWriter = File.AppendText(Folder + "\\" + FileName))
+                using (streamWriter = File.AppendText(Folder() + "\\" + FileName))
                 {
                     //Console.WriteLine(@"Error in reporter" + sectionName);
-                    streamWriter.WriteLine("------------- Start: " + sectionName + " -------------");
-                    streamWriter.WriteLine(DateTime.Now);
+                    streamWriter.WriteLine("------------- Start: " + sectionName+"  " + DateTime.Now +" -------------");
+                    streamWriter.WriteLine();
                 }
             }
             catch (Exception ex)
@@ -90,7 +95,7 @@ namespace Reporter
             try
             {
                 StreamWriter streamWriter;
-                using (streamWriter = File.AppendText(Folder + "\\" + FileName))
+                using (streamWriter = File.AppendText(Folder() + "\\" + FileName))
                 {
                     //Console.WriteLine(@"Error in reporter" + sectionName);
                     streamWriter.WriteLine("------------- End: " + sectionName + " -------------");
@@ -111,6 +116,7 @@ namespace Reporter
         /// <param name="location">???</param>
         public static void WriteContent(string content, int location)
         {
+            
             if (Section.Count == 0)
             {
                 PreText = "&&&&&    ";
@@ -121,45 +127,16 @@ namespace Reporter
                 switch (location)
                 {
                     case 0:
-                        using (streamWriter = File.AppendText(Folder + "\\" + FileName))
+                        using (streamWriter = File.AppendText(Folder() + "\\" + FileName))
                         {
                             streamWriter.WriteLine(PreText + DateTime.Now + "    " + content);
                         }
                         break;
 
-                    case 1:
-                        
-                        break;
-
-                    case 2:
-                        using (streamWriter = File.AppendText(Folder + "\\" + FileName))
-                        {
-
-                        }
-                        break;
-
-                    case 3:
-                        var dict = new Dictionary<string, string>();
-
-                        var dateValue = DateTime.Now;
-                        var mySqlFormatDate = dateValue.ToString("yyyy-MM-dd HH:mm:ss");
-
-                        var split = content.Split(',');
-
-                        dict.Add("pc_name", split[0]);
-                        dict.Add("message", split[1]);
-                        dict.Add("notes", split[2]);
-                        dict.Add("created_at", mySqlFormatDate);
-                        dict.Add("updated_at", mySqlFormatDate);
-
-                        // ReSharper disable once UnusedVariable
-                        //var dbc = new DatabaseConnection(dict, "error_log");
-                        break;
-
                     case 4:
                         if (_debug)
                         {
-                            using (streamWriter = File.AppendText(Folder + "\\" + FileName))
+                            using (streamWriter = File.AppendText(Folder() + "\\" + FileName))
                             {
                                 streamWriter.WriteLine(PreText + DateTime.Now + "    " + content);
                             }
