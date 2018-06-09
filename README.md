@@ -4,7 +4,7 @@ C# Library for reporting and logging
 This project contains the code for the reporter I use in all of my projects. It contained some features I stripped out because 
 of their static use in other projects.
 
-##Using the library
+## Using the library
 Use the method StartReporter as soon as you want. Either pass a folder name or a path from the AppData\Local folder to store the Report.txt file. Then start sections and write content to your hearts content. When the write content method is used pass a "0" as the second parameter. This was one of the features used in other software that has been stripped from the library.
 
 
