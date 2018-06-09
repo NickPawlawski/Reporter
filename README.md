@@ -13,7 +13,7 @@ This was part of the stripped features that were used in other software.
 
 
 Here is an example of using the reporter within a c# console program.
-
+```
 static void Main(string[] args)
 {
     Reporter.Reporter.StartReporter("Reporter Test Folder");
@@ -32,9 +32,9 @@ static void Main(string[] args)
 
     Reporter.Reporter.EndSection();
 }
-
+```
 The report file looks like this when the code above runs.
-
+```
 *****************************************
 Software Launched at: 6/9/2018 10:09:22 AM
  
@@ -48,5 +48,6 @@ Software Launched at: 6/9/2018 10:09:22 AM
 6/9/2018 10:09:22 AM    Foo happened in the second section
 6/9/2018 10:09:22 AM    Bar happened in the second section as well
 ------------- End: Second Section -------------
+```
  
 
