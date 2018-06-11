@@ -16,7 +16,7 @@ namespace Reporter
 
         private static string _folderName;
         private static bool _debug = false; 
-        private static Stack<string> Section = new Stack<string>();
+        private static Stack<string> Section = new Stack<string>(); 
 
         private static string PreText = "";
 
@@ -124,6 +124,7 @@ namespace Reporter
             try
             {
                 StreamWriter streamWriter;
+
                 switch (location)
                 {
                     case 0:
@@ -152,10 +153,6 @@ namespace Reporter
 
             PreText = "";
         }
-
-
-        
-
         #endregion Methods
     }
 }
